@@ -1,0 +1,53 @@
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\ServerHost.exe.config
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\ServerHost.exe
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\ServerHost.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\ServerWork.dll
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\ServerWork.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.csprojResolveAssemblyReference.cache
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\MainWindow.baml
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\MainWindow.g.cs
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\App.g.cs
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost_MarkupCompile.cache
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.g.resources
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.Properties.Resources.resources
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.csproj.GenerateResource.Cache
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.exe.licenses
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.exe
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignColors.dll
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignThemes.Wpf.dll
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignColors.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignThemes.Wpf.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignThemes.Wpf.xml
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\App.baml
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost_MarkupCompile.lref
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.csprojResolveAssemblyReference.cache
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\UserControls\LoadView.baml
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\App.baml
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\MainWindow.g.cs
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\UserControls\LoadView.g.cs
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\App.g.cs
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost_MarkupCompile.cache
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost_MarkupCompile.lref
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\ServerHost.exe.config
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\ServerHost.exe
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\ServerHost.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\Hardcodet.Wpf.TaskbarNotification.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignColors.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignThemes.Wpf.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\ServerWork.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\ServerWork.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\ServerWork.dll.config
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\Hardcodet.Wpf.TaskbarNotification.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\Hardcodet.Wpf.TaskbarNotification.xml
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignColors.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignThemes.Wpf.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\bin\Debug\MaterialDesignThemes.Wpf.xml
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\MainWindow.baml
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.g.resources
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.Properties.Resources.resources
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.csproj.GenerateResource.Cache
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.exe.licenses
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.exe
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerHost\obj\Debug\ServerHost.pdb
