@@ -1,0 +1,17 @@
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ConsoleServerHost.exe.config
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ConsoleServerHost.exe
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ConsoleServerHost.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ServerWork.dll
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ServerWork.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\obj\Debug\ConsoleServerHost.csprojResolveAssemblyReference.cache
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\obj\Debug\ConsoleServerHost.exe
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ConsoleServerHost\obj\Debug\ConsoleServerHost.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ConsoleServerHost.exe.config
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ConsoleServerHost.exe
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ConsoleServerHost.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ServerWork.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ServerWork.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\bin\Debug\ServerWork.dll.config
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\obj\Debug\ConsoleServerHost.csprojResolveAssemblyReference.cache
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\obj\Debug\ConsoleServerHost.exe
+F:\Projects VS2017\WPF\ServerWorkLibrary\ConsoleServerHost\obj\Debug\ConsoleServerHost.pdb
