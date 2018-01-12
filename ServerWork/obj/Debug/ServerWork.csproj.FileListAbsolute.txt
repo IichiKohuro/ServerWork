@@ -1,0 +1,15 @@
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerWork\bin\Debug\ServerWork.dll.config
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerWork\bin\Debug\ServerWork.dll
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerWork\bin\Debug\ServerWork.pdb
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerWork\obj\Debug\ServerWork.csprojResolveAssemblyReference.cache
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerWork\obj\Debug\ServerWork.dll
+c:\users\арм1\documents\visual studio 2013\Projects\ServerWorkLibrary\ServerWork\obj\Debug\ServerWork.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\bin\Debug\ServerWork.dll.config
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\bin\Debug\ServerWork.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\bin\Debug\ServerWork.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\bin\Debug\Hardcodet.Wpf.TaskbarNotification.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\bin\Debug\Hardcodet.Wpf.TaskbarNotification.pdb
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\bin\Debug\Hardcodet.Wpf.TaskbarNotification.xml
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\obj\Debug\ServerWork.csprojResolveAssemblyReference.cache
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\obj\Debug\ServerWork.dll
+F:\Projects VS2017\WPF\ServerWorkLibrary\ServerWork\obj\Debug\ServerWork.pdb
