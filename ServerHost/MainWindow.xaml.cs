@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 
 namespace ServerHost
 {
@@ -13,11 +12,6 @@ namespace ServerHost
             InitializeComponent();
 
             DataContext = new WindowViewModel(this);
-        }
-
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
-
+﻿using System.Windows.Controls;
 
 namespace ServerHost.UserControls
 {
@@ -9,11 +7,15 @@ namespace ServerHost.UserControls
     /// </summary>
     public partial class LoadView : UserControl
     {
+        string text = string.Empty;
+        
+
         public LoadView(string _text)
         {
             InitializeComponent();
 
-            message.Text = _text;
+            text = _text;
+            message.Text = text;
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿<Page x:Class="ServerHost.Pages.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:ServerHost"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="DashboardPage"
+      WindowChrome.IsHitTestVisibleInChrome="True"
+      
+      TextElement.FontFamily="Century Gothic"
+      TextElement.Foreground="{DynamicResource PrimaryHueLightBrush}">
+
+    <!--Main Grid-->
+    <Grid Background="{StaticResource MaterialDesignPaper}">
+
+        <!--Row Definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--Header-->
+        <StackPanel Orientation="Horizontal">
+
+            <md:PackIcon Kind="GoogleAnalytics"
+                         VerticalAlignment="Center"
+                         Margin="15 15 0 15"
+                         Width="25" Height="25"/>
+
+            <TextBlock Text="Статистика/ Аналитика" 
+                       Style="{StaticResource MaterialDesignTitleTextBlock}"
+                       Margin="15"/>
+
+        </StackPanel>
+        
+        
+
+    </Grid>
+</Page>

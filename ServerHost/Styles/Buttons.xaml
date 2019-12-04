@@ -1,0 +1,621 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ServerHost"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+        <ResourceDictionary.MergedDictionaries>
+            <!-- Order is important -->
+            <ResourceDictionary Source="Colors.xaml" />
+            <ResourceDictionary Source="Fonts.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+
+    <!-- Hoverless button -->
+    <Style TargetType="{x:Type Button}" x:Key="Hoverless">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- System Icon Button -->
+    <Style TargetType="{x:Type Button}" x:Key="SystemIconButton" BasedOn="{StaticResource Hoverless}">
+
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Padding" Value="10" />
+
+    </Style>
+
+    <!-- Window Control Button -->
+    <Style TargetType="{x:Type Button}" x:Key="WindowControlButton" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundMainBrush}" />
+
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1.5" />
+            </Setter.Value>
+        </Setter>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
+            </Trigger>
+        </Style.Triggers>
+        
+    </Style>
+    
+    <!-- Window Close Button -->
+    <Style TargetType="{x:Type Button}" x:Key="WindowCloseButton" BasedOn="{StaticResource WindowControlButton}">
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Red" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundLightBrush}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    
+    
+    <!--Close Button-->
+    <Style TargetType="{x:Type Button}" x:Key="CloseButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Width="40" Cursor="Arrow">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" Kind="CloseCircle" 
+                                                 Width="32" Height="18"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Отключить сервер" FontSize="12"
+                                               Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="OrangeRed"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--Maximize Button-->
+    <Style TargetType="{x:Type Button}" x:Key="MaximizeButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Width="40" Cursor="Arrow">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" Kind="Maxcdn" 
+                                                 Width="32" Height="18"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Развернуть окно" FontSize="12"
+                                               Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="CornflowerBlue"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--Minimize Button-->
+    <Style TargetType="{x:Type Button}" x:Key="MinimizeButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Width="40" Cursor="Arrow">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" Kind="TableRow" 
+                                                 Width="32" Height="18"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Свернуть в трей" FontSize="12"
+                                               Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="LightGreen"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--Settings Button-->
+    <Style TargetType="{x:Type Button}" x:Key="SettingsButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Cursor="Arrow">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" Kind="Settings" 
+                                                 Width="32" Height="18"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600"
+                                     ToolTipService.Placement="Bottom">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Настройки сервера" FontSize="12"
+                                               Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="Azure"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--Logs Button-->
+    <Style TargetType="{x:Type Button}" x:Key="LogsButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Cursor="Arrow">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" Kind="NoteText" 
+                                                 Width="32" Height="18"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600"
+                                     ToolTipService.Placement="Bottom">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Логи сервера" FontSize="12"
+                                               Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="Azure"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+    <!--Start Service Button-->
+    <Style TargetType="{x:Type Button}" x:Key="StartServiceButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}" Height="30" Width="25"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" 
+                                                 Kind="{Binding StateService, Converter={local:StateServiceIconConverter}, FallbackValue='Run'}" 
+                                                 Width="16" Height="16"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600"
+                                     ToolTipService.Placement="Top">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Запуск/Остановка сервиса" FontSize="12"
+                                               Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="Azure"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+    
+    <!--Settings Service Button-->
+    <Style TargetType="{x:Type Button}" x:Key="SettingsServiceButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" 
+                                                 Kind="Settings" 
+                                                 Width="16" Height="16"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600"
+                                     ToolTipService.Placement="Top">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <TextBlock Text="Настройки сервиса" FontSize="12"
+                                               Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="Azure"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--Send bids via mail on demand button-->
+    <Style TargetType="{x:Type Button}" x:Key="SendMailButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" 
+                                                 Kind="Email" 
+                                                 Width="16" Height="16"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600"
+                                     ToolTipService.Placement="Top">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <StackPanel>
+                                        <TextBlock Text="Отправить заявки техникам" FontSize="12"
+                                               Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+
+                                        <TextBlock Text="p.s. Сервис должен быть запущен!"
+                                                   Margin="0 5"
+                                                   FontSize="9" FontStyle="Oblique"
+                                                   Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </StackPanel>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="Azure"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+                            <Setter TargetName="icon" Property="Kind" Value="FileSend" />
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--Send problem devices via mail on demand button-->
+    <Style TargetType="{x:Type Button}" x:Key="SendProblemsMailButtonCustomTooltip">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <!--Переопределение шаблона кнопки-->
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{TemplateBinding Command}"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+
+                        <!--Icon-->
+                        <materialDesign:PackIcon x:Name="icon" 
+                                                 Kind="EmailSecure" 
+                                                 Width="16" Height="16"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                        <!--ToolTip-->
+                        <Button.ToolTip>
+
+                            <ToolTip Background="{StaticResource MaterialDesignPaper}" Margin="5"
+                                     ToolTipService.InitialShowDelay="600"
+                                     ToolTipService.Placement="Top">
+
+                                <ToolTip.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.7"/>
+                                </ToolTip.Effect>
+
+                                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="7">
+
+                                    <StackPanel>
+                                        <TextBlock Text="Отправить проблемные устройства РНКБ" FontSize="12"
+                                               Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+
+                                        <TextBlock Text="p.s. Сервис должен быть запущен!"
+                                                   Margin="0 5"
+                                                   FontSize="9" FontStyle="Oblique"
+                                                   Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </StackPanel>
+
+                                </Border>
+
+                            </ToolTip>
+
+                        </Button.ToolTip>
+
+                    </Button>
+
+                    <!--Триггер на наведение-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="icon" Property="Foreground" Value="Azure"/>
+                            <Setter TargetName="icon" Property="Height" Value="20"/>
+                            <Setter TargetName="icon" Property="Kind" Value="FileSend" />
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

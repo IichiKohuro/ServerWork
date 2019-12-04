@@ -1,224 +1,277 @@
 ﻿<Window x:Class="ServerHost.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ig="http://schemas.infragistics.com/xaml" 
         xmlns:local="clr-namespace:ServerHost"
+        xmlns:userControls="clr-namespace:ServerHost.UserControls"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"       
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
-        Background="Transparent"
-        FontFamily="{DynamicResource MaterialDesignFont}"
+        TextOptions.TextRenderingMode="Auto"        
+        FontFamily="Century Gothic"
         
         Title="Сервер ПЦН" 
-        Height="450" Width="800" 
+        Height="600" Width="900" 
         WindowStartupLocation="CenterScreen" 
-        Topmost="True" WindowState="Normal"
+        Topmost="{Binding TopMostWindow}" 
+        WindowState="Normal"
+        MinWidth="{Binding WindowMinimumWidth}"
+        MinHeight="{Binding WindowMinimumHeight}"
         ShowInTaskbar="True"
+        Background="Transparent"
         AllowsTransparency="True" WindowStyle="None">
 
     <Window.Resources>
 
-        <Color x:Key="back">#0f110f</Color>
-        <SolidColorBrush x:Key="backBrush" Color="{StaticResource back}" />
+        <Style TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        
+                        <!-- Outer border with the dropshadow margin -->
+                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
 
-        <Color x:Key="back2">#243743</Color>
-        <SolidColorBrush x:Key="backBrush2" Color="{StaticResource back2}" />
+                            <!-- Main window outline -->
+                            <Grid>
 
-    </Window.Resources>
+                                <!-- Opacity mask for corners on grid -->
+                                <Border Margin="15" x:Name="Container"
+                                        Background="{StaticResource MaterialDesignPaper}"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=7}" />
 
-    <!--Main Border-->
-    <Border Margin="15" CornerRadius="7"
-            MouseLeftButtonDown="Grid_MouseLeftButtonDown"
-            Background="{StaticResource MaterialDesignPaper}">
+                                <!-- Window border and dropshadown -->
+                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=7}"
+                                        Background="{StaticResource MaterialDesignPaper}">
 
-        <!--Border Shadow effect-->
-        <Border.Effect>
-            <DropShadowEffect Direction="270" ShadowDepth="3" BlurRadius="12" Color="Black" Opacity="1"/>
-        </Border.Effect>
+                                    <!--Border Shadow effect-->
+                                    <Border.Effect>
+                                        <DropShadowEffect Direction="270" ShadowDepth="3" BlurRadius="12" />
+                                    </Border.Effect>
 
-        <!--Main Grid-->
-        <Grid>
+                                </Border>
 
-            <!--Column Definitions-->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                                <!--Main Grid-->
+                                <Grid>
 
-            <!--Left Panel-->
-            <Border Background="{StaticResource MaterialDesignPaper}"
-                    CornerRadius="7 0 0 7">
+                                    <!-- Corner clipping -->
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Container}" />
+                                    </Grid.OpacityMask>
 
-                <Border.Effect>
-                    <DropShadowEffect Direction="360" ShadowDepth="2" BlurRadius="8" 
-                                      Color="LightGray"/>
-                </Border.Effect>
-              
-                <!--Content-->
-                <Grid>
-
-                    <Grid.RowDefinitions>
-                        <!--Logo-->
-                        <RowDefinition Height="Auto" />
-                        <!--Service content-->
-                        <RowDefinition Height="*" />
-                        <!--Additional content-->
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <!--Logo-->
-                    <StackPanel Orientation="Horizontal" Grid.Row="0"
-                                HorizontalAlignment="Center" Margin="0 10 0 0">
-                        <Image Source="/Images/Logo/Сервер 3.png" 
-                               Width="160" Height="160"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               materialDesign:HintAssist.Hint="Сервер ПЦН"/>
-
-                    </StackPanel>
-
-                    <!--Services-->
-                    <StackPanel Orientation="Vertical" Grid.Row="1">
-
-                        <!--Сервис отправки заявок-->
-                        <materialDesign:Card Padding="10 5 10 0" Margin="5 4 5 0">
-
-                            <StackPanel Orientation="Vertical">
-
-                                <!--Header-->
-                                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                       Text="Отправка заявок" FontWeight="DemiBold"
-                                       VerticalAlignment="Center"
-                                       Margin="0 5 5 0"
-                                       Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"/>
-
-                                <!--Content-->
-                                <Grid Margin="0 3">
-
-                                    <!--Колонки-->
+                                    <!--Column Definitions-->
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="{Binding LeftPanelWidth, FallbackValue=300}" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!--Иконка состояния сервиса-->
-                                    <materialDesign:PackIcon Width="16" Height="16" Kind="{Binding ServiceState}"
-                                                         VerticalAlignment="Center" Margin="0 5"
-                                                         ToolTip="Состояние сервиса"
-                                                         />
+                                    <!--Left Panel-->
+                                    <Border Background="{StaticResource MaterialDesignPaper}"
+                                            CornerRadius="7 0 0 7" Grid.Column="0">
 
-                                    <!--Строкое представление состояния сервиса-->
-                                    <TextBlock Style="{DynamicResource MaterialDesignCaptionTextBlock}" 
-                                           Text="{Binding ServerStatus, FallbackValue='Запускается...'}"
-                                           VerticalAlignment="Center" Grid.Column="1" Margin="5 0 0 0"
-                                           Foreground="Gray" FontStyle="Italic"/>
+                                        <!--Shadow effect-->
+                                        <Border.Effect>
+                                            <DropShadowEffect Direction="360" ShadowDepth="2" 
+                                                              BlurRadius="8" Opacity="0.3"/>
+                                        </Border.Effect>
 
-                                    <!--Button for Start Service-->
-                                    <materialDesign:DialogHost Grid.Column="2"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-	                                    CloseOnClickAway="False"
-	                                    DialogContent="{Binding LoadingContent}"
-	                                    IsOpen="{Binding IsDialogOpen}">
+                                        <!--Content-->
+                                        <Grid>
+                                            
+                                            <!--Row Definitions-->
+                                            <Grid.RowDefinitions>
+                                                <!--Logo-->
+                                                <RowDefinition Height="Auto" />
+                                                <!--Service content-->
+                                                <RowDefinition Height="*" />
+                                                <!--Additional content-->
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
 
-                                        <Button VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                Height="30" Width="25"
-                                                Command="{Binding MailServiceDialogCommand}"
-                                                ToolTip="Запустить сервис" ToolTipService.Placement="Right"                                        
-                                                Style="{StaticResource MaterialDesignToolButton}">
+                                            <!--Logo-->
+                                            <StackPanel Orientation="Horizontal" Grid.Row="0"
+                                                        HorizontalAlignment="Center" Margin="0">
+                                                <Image Source="/Images/Logo/CentralMonitoring.png" 
+                                                       Width="250" Height="100"
+                                                       Stretch="Uniform"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       materialDesign:HintAssist.Hint="Сервер ПЦН"/>
 
-                                            <materialDesign:PackIcon Width="16" Height="16" Margin="0"
-                                                                 Kind="{Binding StateService, Converter={local:StateServiceIconConverter}, FallbackValue='Run'}" />
-                                        </Button>
+                                            </StackPanel>
 
-                                    </materialDesign:DialogHost>
-                                    
+                                            <!--Services User Control-->
+                                            <UserControl Grid.Row="1">
+                                                <userControls:Services />
+                                            </UserControl>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                    <!--Right place-->
+                                    <Grid Grid.Column="1">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <!--System buttons-->
+                                        <Grid Margin="0 5 10 0" Panel.ZIndex="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Orientation="Horizontal"
+                                                        Margin="15 0 0 0">
+
+                                                <!--Settings button-->
+                                                <Button Command="{Binding SettingsPageCommand}"
+                                                        materialDesign:RippleAssist.Feedback="#DD000000"
+                                                        Style="{StaticResource SettingsButtonCustomTooltip}"                                                    
+                                                        WindowChrome.IsHitTestVisibleInChrome="True"
+                                                        HorizontalAlignment="Left"/>
+
+                                                <!--Logs button-->
+                                                <Button Command="{Binding LogsPageCommand}" 
+                                                        materialDesign:RippleAssist.Feedback="#DD000000"
+                                                        Style="{StaticResource LogsButtonCustomTooltip}"                                                    
+                                                        WindowChrome.IsHitTestVisibleInChrome="True"
+                                                        HorizontalAlignment="Left"/>
+
+                                            </StackPanel>
+                                            
+
+                                            <!--Minimize button-->
+                                            <Button Command="{Binding MinimizeCommand}" Grid.Column="1" 
+                                                    Style="{StaticResource MinimizeButtonCustomTooltip}"                                                   
+                                                    WindowChrome.IsHitTestVisibleInChrome="True"/>
+
+                                            <!--Maximize button-->
+                                            <Button Command="{Binding MaximizeCommand}" Grid.Column="2"
+                                                    Style="{StaticResource MaximizeButtonCustomTooltip}"
+                                                    WindowChrome.IsHitTestVisibleInChrome="True"/>
+
+                                            <!--Close button-->
+                                            <Button Command="{Binding CloseCommand}" Grid.Column="3"
+                                                    Style="{StaticResource CloseButtonCustomTooltip}"
+                                                    WindowChrome.IsHitTestVisibleInChrome="True" />
+
+
+                                        </Grid>
+
+                                        <!-- Page Content -->
+                                        <Border Grid.Row="1" Padding="{Binding InnerContentPadding}">
+                                            <ContentPresenter Content="{TemplateBinding Content}" />
+                                        </Border>
+
+                                    </Grid>
 
                                 </Grid>
 
-                            </StackPanel>
-
-                        </materialDesign:Card>
-
-
-                    </StackPanel>
-
-                </Grid>
-
-            </Border>
-
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <!--System buttons-->
-                <Grid Margin="0 5 10 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <!--Popup menu-->
-                    <materialDesign:PopupBox Grid.Column="1" Margin="0 5 15 5"
-	                                         PlacementMode="BottomAndAlignRightEdges"
-	                                         StaysOpen="False" 
-                                             Foreground="{DynamicResource PrimaryHueMidBrush}">
-                        <StackPanel >
-                            <Button Content="Hello World" />
-                            <Button Content="Nice Popup" />
-                            <Button Content="Can't Touch This" IsEnabled="False" />
-                            <Separator />
-                            <Button Content="Goodbye" />
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-
-                    <!--Minimize button-->
-                    <Button Style="{StaticResource MaterialDesignToolButton}" 
-                            Command="{Binding MinimizeCommand}" Grid.Column="2"
-                            ToolTip="Свернуть окно в трей" Width="40">
-                        <materialDesign:PackIcon Kind="TableRow" 
-                                                 Foreground="LightGreen"/>
-                    </Button>
-                    
-                    <!--Maximize button-->
-                    <Button Style="{StaticResource MaterialDesignToolButton}" 
-                            Command="{Binding MaximizeCommand}" Grid.Column="3"
-                            ToolTip="Развернуть окно" Width="40">
-                        <materialDesign:PackIcon Kind="Maxcdn" 
-                                                 Foreground="CornflowerBlue"/>
-                    </Button>
-                    
-                    <!--Close button-->
-                    <Button Command="{Binding CloseCommand}" Grid.Column="4"
-                            ToolTip="Выключить сервер" Width="40"
-                            Style="{StaticResource MaterialDesignToolButton}">
-                        <materialDesign:PackIcon Kind="CloseCircle" Name="closeIcon"
-                                                 Foreground="{StaticResource SecondaryAccentBrush}">
+                            </Grid>
                             
-                        </materialDesign:PackIcon>
-                    </Button>
-                    
-                </Grid>
-                
-            </Grid>
+                        </Border>
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </Window.Resources>
 
-            <!--Close Application-->
-            <materialDesign:Snackbar Grid.Row="2"
-			            HorizontalAlignment="Stretch"
-			            IsActive="{Binding ShowCloseDialog}">
-                <materialDesign:SnackbarMessage ActionCommand="{Binding CloseCommand}" 
-                                                ActionContent="OK" 
-                                                Content="Вы уверены? Выключить сервер?" />
-            </materialDesign:Snackbar>
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="{Binding ResizeBorderThickness}"
+                      CaptionHeight="{Binding TitleHeight}"
+                      CornerRadius="0"
+                      GlassFrameThickness="0"/>
+    </WindowChrome.WindowChrome>
 
-        </Grid>
+    <!--Main Grid-->
+    <Grid>
 
-    </Border>
+        <!--Taskbar Icon-->
+        <tb:TaskbarIcon x:Name="ServerNotifyIcon"
+                                Visibility="Visible"
+                                IconSource="/Images/Icons/ICO/computer.ico"
+                                MenuActivation="RightClick"
+                                PopupActivation="DoubleClick">
+
+            <!--Tray Tooltip-->
+            <tb:TaskbarIcon.TrayToolTip>
+                <userControls:CustomTrayToolTip />
+            </tb:TaskbarIcon.TrayToolTip>
+
+            <!--Trays Popup-->
+            <tb:TaskbarIcon.TrayPopup>
+                <userControls:CustomTrayPopup />
+            </tb:TaskbarIcon.TrayPopup>
+
+            <!--Tray Context Menu-->
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+
+                    <!--Главное окно-->
+                    <MenuItem Header="Главное окно" Icon="{materialDesign:PackIcon Kind=WindowOpen}"
+                              VerticalAlignment="Center" HorizontalAlignment="Left"
+                              Foreground="{DynamicResource PrimaryHueLightBrush}"
+                              Command="{Binding RestoreWindowCommand}" />
+
+                    <!--Сервисы-->
+                    <!--<MenuItem Header="Сервисы" Icon="{materialDesign:PackIcon Kind=Widgets}"
+                              VerticalAlignment="Center" HorizontalAlignment="Left"
+                              Foreground="{DynamicResource PrimaryHueLightBrush}"
+                              Grid.Row="1">
+
+                        <MenuItem Header="Сервис отправки заявок" Icon="{materialDesign:PackIcon Kind=Email}"
+                                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                                  Foreground="{DynamicResource PrimaryHueLightBrush}">
+
+                            <MenuItem VerticalAlignment="Center" HorizontalAlignment="Left"
+                                      Header="{Binding Path=StateServiceMenuItem, Source={StaticResource ServicesViewModel}}"
+                                      Icon="{materialDesign:PackIcon Kind=Run}"
+                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Command="{Binding Path=MailServiceDialogCommand, Source={StaticResource ServicesViewModel}}"/>
+                        </MenuItem>
+
+                    </MenuItem>-->
+
+                    <!--Настройки-->
+                    <MenuItem Header="Настройки" Icon="{materialDesign:PackIcon Kind=Settings}"
+                              Grid.Row="2"
+                              VerticalAlignment="Center" HorizontalAlignment="Left"
+                              Foreground="{DynamicResource PrimaryHueLightBrush}"
+                              Command="{Binding SettingsPageMenuCommand}" />
+
+                    <!--Separator-->
+                    <Separator Grid.Row="3" Foreground="{DynamicResource PrimaryHueLightBrush}"
+                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                    <!--Отключить сервер-->
+                    <MenuItem Header="Отключить сервер" Icon="{materialDesign:PackIcon Kind=ExitToApp}"
+                              Foreground="{DynamicResource PrimaryHueLightBrush}"
+                              Command="{Binding CloseCommand}"
+                              VerticalAlignment="Center" HorizontalAlignment="Left"
+                              Grid.Row="4"/>
+
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+
+        </tb:TaskbarIcon>
+
+        <!--Main Border-->
+        <Border Margin="15 0 5 5" CornerRadius="7"
+                    Background="{StaticResource MaterialDesignPaper}">
+            <Frame Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}" 
+                      NavigationUIVisibility="Hidden"/>
+
+        </Border>
+
+    </Grid>
+    
+
 </Window>

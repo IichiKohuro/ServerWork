@@ -1,9 +1,8 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
-using MaterialDesignThemes.Wpf;
-using ServerHost.UserControls;
+﻿using Microsoft.Win32;
+using ServerHost.Views.Windows;
+using ServerHost.Views.Pages;
+using ServerWork;
 using System;
-using System.ServiceModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,211 +18,225 @@ namespace ServerHost
         private Window mWindow;
 
         /// <summary>
-        /// The create service host
+        /// The margin around the window to allow for a drop shadow
         /// </summary>
-        private ServiceHost host;
+        private int mOuterMarginSize = 10;
 
-        private string serverstatus;
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        private int mWindowRadius = 10;
 
-        private string servicestate;
+        /// <summary>
+        /// The last known dock position
+        /// </summary>
+        private WindowDockPosition mDockPosition = WindowDockPosition.Undocked;
 
-        private bool stateService;
+        /// <summary>
+        /// The initialization log manager
+        /// </summary>
+        private LogManager logger;
 
-        // Dialog host
-        private bool _isDialogOpen;
-        private object _loadingContent;
-
-        #endregion
-
-        #region Public Properties
-
-        #region Dialog
-
-                public bool IsDialogOpen
-                {
-                    get { return _isDialogOpen; }
-                    set
-                    {
-                        if (_isDialogOpen == value) return;
-                        _isDialogOpen = value;
-                        OnPropertyChanged("IsDialogOpen");
-                    }
-                }
-
-                public object LoadingContent
-                {
-                    get { return _loadingContent; }
-                    set
-                    {
-                        if (_loadingContent == value) return;
-                        _loadingContent = value;
-                        OnPropertyChanged("LoadingContent");
-                    }
-                }
+        /// <summary>
+        /// INI class 
+        /// </summary>
+        private INI ini;
 
         #endregion
 
-        public string ServerStatus
+
+        #region Public properties
+
+        /// <summary>
+        /// The smallest width the window can go to
+        /// </summary>
+        public double WindowMinimumWidth { get; set; } = 700;
+
+        /// <summary>
+        /// The smallest height the window can go to
+        /// </summary>
+        public double WindowMinimumHeight { get; set; } = 600;
+
+        /// <summary>
+        /// True if the window should be borderless because it is docked or maximized
+        /// </summary>
+        public bool Borderless { get { return (mWindow.WindowState == WindowState.Maximized || mDockPosition != WindowDockPosition.Undocked); } }
+
+        /// <summary>
+        /// The size of the resize border around the window
+        /// </summary>
+        public int ResizeBorder { get; set; } = 5;
+
+        /// <summary>
+        /// The size of the resize border around the window, taking into account the outer margin
+        /// </summary>
+        public Thickness ResizeBorderThickness { get { return new Thickness(ResizeBorder + OuterMarginSize); } }
+
+        /// <summary>
+        /// The padding of the inner content of the main window
+        /// </summary>
+        public Thickness InnerContentPadding { get { return new Thickness(ResizeBorder); } }
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        public int OuterMarginSize
         {
-            get { return serverstatus; }
+            get
+            {
+                // If it is maximized or docked, no border
+                return Borderless ? 0 : mOuterMarginSize;
+            }
             set
             {
-                serverstatus = value;
-                OnPropertyChanged("ServerStatus");
+                mOuterMarginSize = value;
             }
         }
 
-        public string ServiceState
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        public Thickness OuterMarginSizeThickness { get { return new Thickness(OuterMarginSize); } }
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        public int WindowRadius
         {
-            get { return servicestate; }
+            get
+            {
+                // If it is maximized or docked, no border
+                return Borderless ? 0 : mWindowRadius;
+            }
             set
             {
-                servicestate = value;
-                OnPropertyChanged("ServiceState");
+                mWindowRadius = value;
             }
         }
 
-        public bool StateService
-        {
-            get { return stateService; }
-            set
-            {
-                stateService = value;
-                OnPropertyChanged("StateService");
-            }
-        }
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        public CornerRadius WindowCornerRadius { get { return new CornerRadius(WindowRadius); } }
+
+        /// <summary>
+        /// The height of the title bar / caption of the window
+        /// </summary>
+        public int TitleHeight { get; set; }
+
+        /// <summary>
+        /// The width of the left panel
+        /// </summary>
+        public int LeftPanelWidth { get; set; } = 300;
+
+        /// <summary>
+        /// The current page
+        /// </summary>
+        public ApplicationPage CurrentPage { get; set; } = ApplicationPage.Dashboard;
+
+        /// <summary>
+        /// Главное окно повер всех окон
+        /// </summary>
+        public bool TopMostWindow { get; set; } = false;
 
         #endregion
+
 
         #region Constructor
+
         public WindowViewModel(Window window)
         {
             mWindow = window;
-            host = new ServiceHost(typeof(ServerWork.ServerService));
 
-            StateService = false;
-            ServerStatus = "Ожидание запуска ...";
-            ServiceState = "ServerNetworkOff";
+            TitleHeight = (int)window.Height;
 
-            //Note: XAML is suggested for all but the simplest scenarios
-            TaskbarIcon tbi = new TaskbarIcon();
-            tbi.Icon = new System.Drawing.Icon(Properties.Resources.Control_Panel, 16, 16);
-            tbi.ToolTipText = "hello world";
+            // Listen out for the window resizing
+            mWindow.StateChanged += (sender, e) =>
+            {
+                // Fire off events for all properties that are affected by a resize
+                WindowResized();
+            };
+
+            // Fix window resize issue
+            var resizer = new WindowResizer(mWindow);
+
+            // Listen out for dock changes
+            resizer.WindowDockChanged += (dock) =>
+            {
+                // Store last position
+                mDockPosition = dock;
+
+                // Fire off resize events
+                WindowResized();
+            };
+
+            // Указываем путь к файлу логов
+            logger = new LogManager(AppDomain.CurrentDomain.BaseDirectory + "logs.txt");
+
+            // Логгируем действие
+            logger.WriteLog(this.ToString(), "ЗАПУСК СЕРВЕРА", LogType.Information, out string error);
 
             // Create commands
-            MailServiceDialogCommand = new AnotherCommandImplementation(MailServiceDialog);
-            AcceptDialogCommand = new AnotherCommandImplementation(AcceptDialog);
-            CancelDialogCommand = new AnotherCommandImplementation(CancelDialog);
-
-
-            MinimizeCommand = new RelayCommand(() => mWindow.WindowState = WindowState.Minimized);
+            RestoreWindowCommand = new RelayCommand(() => mWindow.Show());
+            MinimizeCommand = new RelayCommand(() => mWindow.Hide());
             MaximizeCommand = new RelayCommand(() => mWindow.WindowState ^= WindowState.Maximized);
-            CloseCommand = new RelayCommand(() => mWindow.Close());
-            //MenuCommand = new RelayCommand(() => SystemCommands.ShowSystemMenu(mWindow, GetMousePosition()));
 
-        }
-
-        private void MailServiceDialog(object obj)
-        {
-            string mess = string.Empty;
-
-            if (StateService == false)
-                mess = "Запуск сервиса, ждите ...";
-            else
-                mess = "Остановка сервиса, ждите ...";
-
-            LoadingContent = new LoadView(mess);
-            IsDialogOpen = true;
-
-            Task.Factory.StartNew(() =>
+            CloseCommand = new RelayCommand(() =>
             {
-                if (StateService == false)
-                {
-                    host = new ServiceHost(typeof(ServerWork.ServerService));
-                    host.Open();
 
-                    ServiceState = "ServerNetwork";
-                    StateService = true;
+                // Логгируем действие
+                logger.WriteLog(this.ToString(), "ОСТАНОВКА СЕРВЕРА", LogType.Information, out error);
 
-                    ServerStatus = "Сервис запущен ...";
-                }
-                else
-                {
-                    host.Abort();
+                mWindow.Close();
+            });
 
-                    ServiceState = "ServerNetworkOff";
-                    StateService = false;
+            SettingsServicesCommand = new RelayCommand(() => new SettingsSendBidsServiceWindow().ShowDialog());
 
-                    ServerStatus = "Сервис остановлен ...";
-                }
-
-                Task.Delay(TimeSpan.FromSeconds(3));
-
-            }).ContinueWith((t, _) => IsDialogOpen = false, null,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
-        private void CancelDialog(object obj)
-        {
-            IsDialogOpen = false;
-        }
-
-        private void AcceptDialog(object obj)
-        {
-            Task.Factory.StartNew(() => 
+            SettingsPageMenuCommand = new RelayCommand(() =>
             {
-                if (StateService == false)
-                {
-                    host = new ServiceHost(typeof(ServerWork.ServerService));
-                    host.Open();
+                mWindow.Show();
+                CurrentPage = ApplicationPage.Settings;
+            });
+            SettingsPageCommand = new RelayCommand(() => CurrentPage = ApplicationPage.Settings);
+            LogsPageCommand = new RelayCommand(() => CurrentPage = ApplicationPage.Logs);
 
-                    ServiceState = "ServerNetwork";
-                    StateService = true;
+            // MenuCommand = new RelayCommand(() => SystemCommands.ShowSystemMenu(mWindow, GetMousePosition()));
+  
 
-                    ServerStatus = "Сервис запущен ...";
-                }
-                else
-                {
-                    host.Abort();
+            ini = new INI(AppDomain.CurrentDomain.BaseDirectory + "Configuration.ini");
 
-                    ServiceState = "ServerNetworkOff";
-                    StateService = false;
-
-                    ServerStatus = "Сервис остановлен ...";
-                }
-
-            }).ContinueWith((t, _) => IsDialogOpen = false, null,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+            GetServerSettings();  
         }
+
         #endregion
 
-        #region Command Methods
-
-
-
-        #endregion
 
         #region Commands
 
         /// <summary>
-        /// The command to change state mail service
+        /// The command to show settings services page
         /// </summary>
-        public ICommand MailServiceDialogCommand { get; }
+        public ICommand SettingsServicesCommand { get; set; }
 
         /// <summary>
-        /// The command to start dialog
+        /// The command to show settings page
         /// </summary>
-        public ICommand AcceptDialogCommand { get; }
+        public ICommand SettingsPageMenuCommand { get; set; }
 
         /// <summary>
-        /// The command to close dialog
+        /// The command to show settings page
         /// </summary>
-        public ICommand CancelDialogCommand { get; }
+        public ICommand SettingsPageCommand { get; set; }
 
         /// <summary>
-        /// The command to start service
+        /// The command to show logs page
         /// </summary>
-        public ICommand ShowCloseDialogCommand { get; set; }
+        public ICommand LogsPageCommand { get; set; }
+
+        /// <summary>
+        /// The command to restore main window
+        /// </summary>
+        public ICommand RestoreWindowCommand { get; set; }
 
         /// <summary>
         /// The command to minimize the window
@@ -247,9 +260,54 @@ namespace ServerHost
 
         #endregion
 
+
         #region Private Helpers
 
-        
+        /// <summary>
+        /// If the window resizes to a special position (docked or maximized)
+        /// this will update all required property change events to set the borders and radius values
+        /// </summary>
+        private void WindowResized()
+        {
+            // Fire off events for all properties that are affected by a resize
+            OnPropertyChanged(nameof(Borderless));
+            OnPropertyChanged(nameof(ResizeBorderThickness));
+            OnPropertyChanged(nameof(OuterMarginSize));
+            OnPropertyChanged(nameof(OuterMarginSizeThickness));
+            OnPropertyChanged(nameof(WindowRadius));
+            OnPropertyChanged(nameof(WindowCornerRadius));
+        }
+
+        /// <summary>
+        /// Запуск программы при загрузке Windows
+        /// </summary>
+        /// <param name="isChecked">Если true, запускаем, иначе - нет...</param>
+        private void RegisterInStartup(bool isChecked)
+        {
+            // Инициализация записи в регистре
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
+                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (isChecked)
+                // Записываем запись в регистр
+                registryKey.SetValue("Server Host", AppDomain.CurrentDomain.BaseDirectory + "ServerHost.exe");
+            else
+                // Удаляем запись из регистра
+                registryKey.DeleteValue("Server Host", false);
+        }
+
+        /// <summary>
+        /// Получаем настройки для сервера
+        /// </summary>
+        private void GetServerSettings()
+        {
+            TopMostWindow = bool.Parse(ini.Read("MainConfiguration", "AutostartServer"));
+
+            bool _autostart = bool.Parse(ini.Read("MainConfiguration", "TopMost"));
+
+            // Если настройка true, тогда при запуске Windows запускается наша программа
+            RegisterInStartup(_autostart);
+        }
 
         #endregion
 
