@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ServerWork
 {
@@ -83,23 +84,23 @@ namespace ServerWork
                         logger.WriteLog(this.ToString(), $"Внимание! Файл ″{file}″ не существует. Отмена отправки!!!", LogType.Warning, out string error);
                         return false;
                     }
-                }    
+                }
             }
 
             int i = 0;
 
-            foreach (var mail in serviceMailList)
-            {
-                var result = SendToMail(sendMailInfo, mail.Email, attachFiles).GetAwaiter().GetResult();
+            var mailToList = serviceMailList.Select(s => s.Email).ToList<string>();
+            var mailToListString = mailToList.ToString();
 
-                if (result)
-                {
-                    logger.WriteLog(this.ToString(), $"Отправка на почту ‴{mail.Email}‴ - УСПЕШНО", LogType.Information, out string error);
-                    i++;
-                }
-                else
-                    logger.WriteLog(this.ToString(), $"Отправка на почту ‴{mail.Email}‴ - НЕУДАЧА", LogType.Warning, out string error);
+            var result = SendToMail(sendMailInfo, mailToList, attachFiles).GetAwaiter().GetResult();
+
+            if (result)
+            {
+                logger.WriteLog(this.ToString(), $"Отправка на почту ‴{mailToList.ToString()}‴ - УСПЕШНО", LogType.Information, out string error);
+                i++;
             }
+            else
+                logger.WriteLog(this.ToString(), $"Отправка на почту ‴{mailToList.ToString()}‴ - НЕУДАЧА", LogType.Warning, out string error);
 
             if (i == serviceMailList.Count)
                 return true;
@@ -119,13 +120,21 @@ namespace ServerWork
         /// <param name="mailto">Кому отправить письмо</param>
         /// <param name="attachFiles">Список путей файлов, для отправки по почте</param>
         /// <returns></returns>
-        private async Task<bool> SendToMail(SendMailInfo sendmailinfo, string mailto, List<string> attachFiles = null)
+        private async Task<bool> SendToMail(SendMailInfo sendmailinfo, List<string> mailto, List<string> attachFiles = null)
         {
             try
             {
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(sendmailinfo.MailFrom);
-                mail.To.Add(new MailAddress(mailto));
+
+                if (mailto != null)
+                {
+                    foreach (var _mailTo in mailto)
+                    {
+                        mail.To.Add(new MailAddress(_mailTo));
+                    }
+                }
+                
                 mail.Subject = sendmailinfo.Caption;
                 mail.Body = sendmailinfo.Message;
                 mail.IsBodyHtml = false;

@@ -23,10 +23,10 @@ namespace ServerWork
 
             foreach (var item in _list)
             {
-                item.V220 = item.V220.Equals("ДА") ? "1" : "0";
-                item.StatusEth = item.StatusEth.Equals("ДА") ? "1" : "0";
-                item.StateEth = item.StateEth.Equals("ДА") ? "1" : "0";
-                item.LineEth = item.LineEth.Equals("ДА") ? "1" : "0";
+                item.V220      = item.V220.Equals("-")      ? "2" : (item.V220.Equals("ДА")      ? "1" : "0");
+                item.StatusEth = item.StatusEth.Equals("-") ? "2" : (item.StatusEth.Equals("ДА") ? "1" : "0");
+                item.StateEth  = item.StateEth.Equals("-")  ? "2" : (item.StateEth.Equals("ДА")  ? "1" : "0");
+                item.LineEth   = item.LineEth.Equals("-")   ? "2" : (item.LineEth.Equals("ДА")   ? "1" : "0");
             }
 
             JsonObject jsonObject = new JsonObject()
@@ -34,7 +34,7 @@ namespace ServerWork
                 data = _list
             };
 
-            result = exportFolder + @"\" + nameFile + ".json";
+            result = exportFolder + @"\Проблемные устройства РНКБ\" + nameFile + " [" + DateTime.Now.ToString("dd.MM.yyyy HH-mm") + "].json";
 
             File.WriteAllText(result, JsonConvert.SerializeObject(jsonObject, Formatting.Indented));
             

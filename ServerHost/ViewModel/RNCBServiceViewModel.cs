@@ -129,7 +129,7 @@ namespace ServerHost
                         var client = new ServerService(true);
 
                         // Отправка списка проблемных устройств РНКБ по требованию пользователя
-                        client.SendServicesBidsOnRequest();
+                        client.SendServicesRNCBOnRequest();
 
                     }).ContinueWith((t, _) => IsDialogOpen = false, null,
                         TaskScheduler.FromCurrentSynchronizationContext());

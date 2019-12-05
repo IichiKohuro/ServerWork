@@ -784,7 +784,7 @@ namespace ServerWork
                         device.AddressDevice = _address;
                         device.V220 = electricPower.HasValue ? (electricPower.Value ? "НЕТ" : "ДА") : "-";
                         device.StatusEth = _settings.Contains("UseChannel.2=1") ? "ДА" : "НЕТ";
-                        device.StateEth = ethernetConnection.HasValue ? (ethernetConnection.Value ? "ДА" : "НЕТ") : "-";
+                        device.StateEth = ethernetMalfunction.HasValue ? (ethernetMalfunction.Value ? "НЕТ" : "ДА") : "-";
                         device.LineEth = ethernetLine.HasValue ? (ethernetLine.Value ? "ДА" : "НЕТ") : "-";
 
                         #endregion
